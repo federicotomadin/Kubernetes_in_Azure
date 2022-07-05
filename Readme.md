@@ -1,7 +1,14 @@
+# INSTALL
+
+![image.png](/.attachments/image-6b17b0c1-149a-4c87-89a8-513745e7e678.png)
+
 # Login into az CLI
 
+_-g -> resource_group
+-n -> name_
+
 ```sh
-az aks get-credentials -g eflow-produccion -n eflow-produccion --overwrite-existing
+az aks get-credentials -g <name_resource_group> -n <name_cluster> --overwrite-existing
 ```
 
 # Create namespaces
@@ -11,6 +18,36 @@ ns -> namespace
 ```sh
 kubectl create ns ingress-basic
 kubectl create ns cert-manager
+```
+
+# Install certificates
+
+## with Helm
+
+```sh
+helm install cert-manager jetstack/cert-manager `
+--namespace cert-manager `
+--set nodeSelector."kubernetes\.io/os"=linux `
+--set installCRDs=false `
+--set ingressShim.defaultIssuerName=letsencrypt-prod `
+--set ingressShim.defaultIssuerKind=ClusterIssuer `
+--set ingressShim.defaultIssuerGroup=cert-manager.io
+```
+
+## with Cert-manager
+
+```sh
+v1.3.0
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3.0/cert-manager.yaml -n cert-manager
+
+v1.2.0
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.2.0/cert-manager.crds.yaml -n cert-manager
+```
+
+# Get Certificates
+
+```sh
+kubectl get pods -n cert-manager
 ```
 
 # Install cert-manager
@@ -54,43 +91,15 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/cont
 # Show Ip generated and get the ID
 
 ```sh
-az aks show --resource-group myResourceGroup --name myAKSCluster --query nodeResourceGroup -o tsv
+az aks show --resource-group myResourceGroup --name myAKSCluster
 
-az network public-ip create --resource-group MC_eflow-produccion_eflow-produccion_centralus --name myAKSPublicIP --sku Standard --allocation-method static --query publicIp.ipAddress -o tsv
+az network public-ip show --resource-group MC_eflow-produccion_eflow-produccion_eastus  --ids ''
 
-az network public-ip list --query "[?ipAddress!=null]|[?contains(ipAddress, '52.185.28.225')].[id]" --output tsv
+az network public-ip list --query "[?ipAddress!=null]|[?contains(ipAddress, xx.xxx.xxx.xxxs')].[id]" --output tsv
+
+az network public-ip update --ids ''  --dns-name hello-world-ingress
 
 az network public-ip show --resource-group MC_eflow-produccion_eflow-produccion_centralus --id '' --query "{fqdn: dnsSettings.fqdn, address: ipAddress}"
-```
-
-# Install certificates
-
-## with Helm
-
-```sh
-helm install cert-manager jetstack/cert-manager `
---namespace cert-manager `
---set nodeSelector."kubernetes\.io/os"=linux `
---set installCRDs=false `
---set ingressShim.defaultIssuerName=letsencrypt-prod `
---set ingressShim.defaultIssuerKind=ClusterIssuer `
---set ingressShim.defaultIssuerGroup=cert-manager.io
-```
-
-## with Cert-manager
-
-```sh
-v1.3.0
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3.0/cert-manager.yaml -n cert-manager
-
-v1.2.0
-kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.2.0/cert-manager.crds.yaml -n cert-manager
-```
-
-# Get Certificates
-
-```sh
-kubectl get pods -n cert-manager
 ```
 
 # Install pods
@@ -103,6 +112,7 @@ kubectl apply -f .\aks-helloworld-two.yaml -n ingress-basic
 # Install Cluster Issuer
 
 ```sh
+kubectl apply -f .\certificate.yaml -n cert-manager
 kubectl apply -f .\cluster-issuer.yaml -n cert-manager
 ```
 
@@ -125,15 +135,18 @@ kubectl delete clusterissuer letsencrypt-prod
 ```sh
 kubectl -n ingress-basic get all
 
+kubectl -n cert-manager get all
+
+kubectl get svc -n cert-manager
+
 kubectl get clusterissuer
 
 kubectl get pods -n cert-manager
 
-kubectl describe certificate letsencrypt-prod
+kubectl get certificates
 
-kubectl get svc
+kubectl describe certificate letsencrypt-prod
 
 kubectl get nodes -o wide
 
-kubectl -n cert-manager get all
 ```
