@@ -4,8 +4,8 @@
 
 # Login into az CLI
 
-_-g -> resource_group
--n -> name_
+_g -> resource_group
+n -> name_
 
 ```sh
 az aks get-credentials -g <name_resource_group> -n <name_cluster> --overwrite-existing
