@@ -1,6 +1,6 @@
 # INSTALL
 
-![image.png](/.attachments/image-6b17b0c1-149a-4c87-89a8-513745e7e678.png)
+![image.png](/kubernetes_service.png)
 
 # Login into az CLI
 
