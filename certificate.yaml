@@ -2,12 +2,13 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: tls-secret
+  namespace: ingress-basic
 spec:
   secretName: tls-secret
   dnsNames:
-    - demo.azure.com
+    - hello-world-ingress.centralus.cloudapp.azure.com
   issuerRef:
-    name: letsencrypt
+    name: letsencrypt-staging
     # We can reference ClusterIssuers by changing the kind here.
     # The default value is Issuer (i.e. a locally namespaced Issuer)
     kind: Issuer
