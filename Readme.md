@@ -82,15 +82,14 @@ kubectl apply -f .\ingress-controller-without-tls.yaml -n ingress-basic
 
 # Install certificates
 
-## with Helm
+```sh
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.8.2/cert-manager.yaml -n cert-manager
+```
+
+# Get all certificates
 
 ```sh
-helm install `
-    cert-manager jetstack/cert-manager `
-    --namespace cert-manager `
-    --version v1.5.3 `
-    --create-namespace `
-    --set installCRDs=true
+kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Challenges --all-namespaces
 ```
 
 # Install Cluster Issuer withour TLS
@@ -106,6 +105,7 @@ kubectl delete namespace ingress-basic
 kubectl delete namespace cert-manager
 kubectl delete clusterissuer letsencrypt-staging
 kubectl delete crd --all
+kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/vX.Y.Z/cert-manager.yaml
 ```
 
 # Commands
@@ -134,4 +134,15 @@ kubectl get crd --all-namespaces
 
 ```sh
 kubectl --namespace ingress-basic get services -o wide -w ingress-nginx-controller
+```
+
+# Check URLs with cURL
+
+_v -> verbose
+k -> without restrictions_
+
+```sh
+curl -k https://hello-world-ingress.centralus.cloudapp.azure.com
+
+curl -v https://hello-world-ingress.centralus.cloudapp.azure.com
 ```
