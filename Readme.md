@@ -92,7 +92,7 @@ kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/
 kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Challenges --all-namespaces
 ```
 
-# Install Cluster Issuer withour TLS
+# Install Cluster Issuer without TLS
 
 ```sh
 kubectl apply -f .\cluster-issuer.yaml
