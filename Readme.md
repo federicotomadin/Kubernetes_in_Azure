@@ -80,22 +80,28 @@ kubectl apply -f .\aks-helloworld-two.yaml -n ingress-basic
 kubectl apply -f .\ingress-controller-without-tls.yaml -n ingress-basic
 ```
 
+# Install Jetstack to renew the issuer to certificates
+
+```sh
+kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.0.4/cert-manager.yaml
+```
+
 # Install certificates
 
 ```sh
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.8.2/cert-manager.yaml -n cert-manager
 ```
 
+# Install CRDs
+
+```sh
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.crds.yaml
+```
+
 # Get all certificates
 
 ```sh
 kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Challenges --all-namespaces
-```
-
-# Install Cluster Issuer without TLS
-
-```sh
-kubectl apply -f .\cluster-issuer.yaml
 ```
 
 # Delete namespaces
