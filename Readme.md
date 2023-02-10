@@ -89,7 +89,7 @@ kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/relea
 # Install certificates
 
 ```sh
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.11.0/cert-manager.yaml -n cert-manager
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.8.2/cert-manager.yaml -n cert-manager
 ```
 
 # Install CRDs
