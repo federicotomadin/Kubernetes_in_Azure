@@ -136,6 +136,30 @@ kubectl get nodes -o wide
 kubectl get crd --all-namespaces
 ```
 
+## CRDs
+
+```sh
+kubectl get crds | grep cert-manager
+```
+
+## CHALLENGE.ACME
+
+```sh
+kubectl get challenges.acme.cert-manager.io -A
+
+az aks show -g eflow-prod  -n  eflow-prod
+
+kubectl delete crd challenges.acme.cert-manager.io
+```
+
+## CERT MANAGER COMMANDS
+
+```sh
+kubectl get challenge <challenge-name> -ojsonpath='{.spec.authorizationURL}'
+
+kubectl edit challenges.acme.cert-manager.io <pod_name>
+```
+
 ## Get ingress-controller
 
 ```sh
