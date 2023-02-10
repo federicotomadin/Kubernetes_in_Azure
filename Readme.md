@@ -30,14 +30,15 @@ kubectl create ns cert-manager
 
  helm repo update
 
- helm install ingress-nginx ingress-nginx/ingress-nginx `
- --namespace ingress-basic `
- --set controller.replicaCount=1 `
- --set controller.nodeSelector."kubernetes\.io/os"=linux `
- --set controller.image.digest="" `
- --set controller.admissionWebhooks.patch.nodeSelector."kubernetes\.io/os"=linux `
- --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz ` --set controller.admissionWebhooks.patch.image.digest="" `
- --set defaultBackend.nodeSelector."kubernetes\.io/os"=linux `
+ helm install ingress-nginx ingress-nginx/ingress-nginx \
+ --namespace ingress-basic \
+ --set controller.replicaCount=1 \
+ --set controller.nodeSelector."kubernetes\.io/os"=linux \
+ --set controller.image.digest="" \
+ --set controller.admissionWebhooks.patch.nodeSelector."kubernetes\.io/os"=linux \
+ --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz \
+ --set controller.admissionWebhooks.patch.image.digest="" \
+ --set defaultBackend.nodeSelector."kubernetes\.io/os"=linux \
  --set defaultBackend.image.digest=""
 ```
 
