@@ -25,21 +25,7 @@ kubectl create ns cert-manager
 ## With Helm
 
 ```sh
-
- helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-
- helm repo update
-
- helm install ingress-nginx ingress-nginx/ingress-nginx \
- --namespace ingress-basic \
- --set controller.replicaCount=1 \
- --set controller.nodeSelector."kubernetes\.io/os"=linux \
- --set controller.image.digest="" \
- --set controller.admissionWebhooks.patch.nodeSelector."kubernetes\.io/os"=linux \
- --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz \
- --set controller.admissionWebhooks.patch.image.digest="" \
- --set defaultBackend.nodeSelector."kubernetes\.io/os"=linux \
- --set defaultBackend.image.digest=""
+ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.6.4/deploy/static/provider/cloud/deploy.yaml 
 ```
 
 # Show Ip generated and get the ID
