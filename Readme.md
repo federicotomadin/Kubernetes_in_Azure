@@ -16,13 +16,12 @@ az aks get-credentials -g <name_resource_group> -n <name_cluster> --overwrite-ex
 ns -> namespace
 
 ```sh
-kubectl create ns ingress-basic
+kubectl create ns ingress-nginx
 kubectl create ns cert-manager
 ```
 
 # Install Ingress Controller
 
-## With Helm
 
 ```sh
  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.6.4/deploy/static/provider/cloud/deploy.yaml 
@@ -64,7 +63,7 @@ kubectl apply -f .\aks-helloworld-two.yaml -n ingress-basic
 # Install Ingress manifest
 
 ```sh
-kubectl apply -f .\ingress-controller-without-tls.yaml -n ingress-basic
+kubectl apply -f .\ingress-controller.yaml
 ```
 
 # Install Jetstack to renew the issuer to certificates
@@ -121,6 +120,37 @@ kubectl describe certificate tls-secret
 kubectl get nodes -o wide
 
 kubectl get crd --all-namespaces
+```
+
+## INGRESS
+
+```sh
+kubectl get ingress -A
+
+kubectl get pods -n ingress-nginx
+
+```
+
+## JOBS 
+
+```sh
+kubectl get jobs -n ingress-nginx
+
+kubectl delete jobs --all -n ingress-nginx 
+```
+
+## CHECK INGRESS CLASS VERSION 
+
+```sh
+kubectl get ingressclass
+```
+
+## SECRETs
+
+```sh
+kubectl get secret -n ingress-nginx
+
+kubectl get secret ingress-nginx-admission -n ingress-nginx
 ```
 
 ## CRDs
