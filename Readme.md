@@ -148,6 +148,10 @@ kubectl get ingressclass
 ## SECRETs
 
 ```sh
+kubectl get sa
+
+kubectl get secret xxxxxxxxx -o json
+
 kubectl get secret -n ingress-nginx
 
 kubectl get secret ingress-nginx-admission -n ingress-nginx
